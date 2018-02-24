@@ -1,0 +1,142 @@
+<div align="center" class="AddTodoBox" [hidden]="todoService.showAddTodoBox">
+  <h4>Add New Todo</h4>
+  <form (ngSubmit)="AddTodo(todo);todoForm.reset()" #todoForm="ngForm">
+    <div class="form-group">
+      <label for="fullName">Name:</label>
+      <input type="text" class="form-control" name="fullName" id="fullName" [(ngModel)]="todo.fullName" #fullName="ngModel" required
+      />
+      <div [hidden]="fullName.valid || fullName.pristine" class="alert alert-danger">
+        Todo is required
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="todoText">Todo:</label>
+      <textarea class="form-control" name="todoText" id="todoText" [(ngModel)]="todo.todoText" #todoText="ngModel" required></textarea>
+      <div [hidden]="todoText.valid || todoText.pristine" class="alert alert-danger">
+        Text is required
+      </div>
+    </div>
+    <button type="submit" class="btn btn-success btn-block" [disabled]="!todoForm.form.valid">Submit</button>
+  </form>
+</div>
+
+
+<mat-paginator [length]="option.length" [pageSize]="option.pageSize" [pageSizeOptions]="option.pageSizeOptions" [showFirstLastButtons]="false"
+  (page)="pageEvent = todoList($event)">
+</mat-paginator>
+<div class="example-container mat-elevation-z8">
+  <mat-table #table [dataSource]="todos">
+    <ng-container matColumnDef="createdAt">
+      <mat-header-cell *matHeaderCellDef> createdAt </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.createdAt | date:'short'}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="fullName">
+      <mat-header-cell *matHeaderCellDef> fullName </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.fullName}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="todoText">
+      <mat-header-cell *matHeaderCellDef> todoText </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.todoText}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="Action">
+      <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <a mat-button [routerLink]="['/todo', element._id]" title="Click to Open {{element.todoText}}">
+          <i class="material-icons">storage</i>
+        </a>
+        <button mat-button color="primary" data-title="Edit" data-toggle="modal" data-target="#edit" (click)="showEditTodo(element)">
+          <i class="material-icons">create</i>
+        </button>
+        <button mat-button color="warn" data-title="Delete" data-toggle="modal" data-target="#delete" (click)="showDeleteTodo(element)">
+          <i class="material-icons">delete_sweep</i>
+        </button>
+      </mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+  <!-- <div *ngIf="todos.length <= 0" class="NoTodosBox">
+    <div align="center" class="alert alert-info" role="alert">
+      <strong>No Todos Available in Database</strong>
+    </div>
+  </div> -->
+  <div *ngIf="pageEvent">
+    <h5>Page Change Event Properties</h5>
+    <div>List length: {{pageEvent.length}}</div>
+    <div>Page size: {{pageEvent.pageSize}}</div>
+    <div>Page index: {{pageEvent.pageIndex}}</div>
+  </div>
+</div>
+
+  <!-- Delete Modal -->
+  <!-- <div  class="modal fade" id="delete" role="dialog">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Delete Todo</h4>
+        </div>
+        <div class="modal-body">
+          <div align="center" class="DeleteTodoBox">
+            <div *ngIf="!apiMessage" align="center" class="alert alert-danger" role="alert">
+              <p>Are you sure want to delete this todo?</p>
+            <strong>{{todoToDelete.todoText}}</strong>
+            </div>
+          <div style="margin:10px;" *ngIf="apiMessage" align="center" class="alert alert-success" role="alert">
+          <strong>{{todoToDelete.todoText}}</strong>  {{apiMessage}}
+          </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" *ngIf="!apiMessage" (click)="DeleteTodo(todoToDelete)">Confirm</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+  <div   class="modal fade" id="edit" role="dialog">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Edit Todo</h4>
+        </div>
+        <div class="modal-body">
+          <div align="center" class="EditTodoBox">
+            <form (ngSubmit)="EditTodo(todoToEdit)" #editTodoForm="ngForm">
+              <div class="form-group">
+                <label for="fullName">Todo:</label>
+                <input type="text" [(ngModel)]="todoToEdit.fullName" #todoeditfullname="ngModel" class="form-control" name="fullName" id="fullName"
+                  required />
+                <div [hidden]="todoeditfullname.valid || todoeditfullname.pristine" class="alert alert-danger">
+                  Name is required
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="todoText">Description:</label>
+                <textarea class="form-control" [(ngModel)]="todoToEdit.todoText" #todoedittext="ngModel" name="todoText" id="todoText" required></textarea>
+                <div [hidden]="todoedittext.valid || todoedittext.pristine" class="alert alert-danger">
+                  Todo is required
+                </div>
+              </div>
+              <button type="submit" [disabled]="!editTodoForm.form.valid || !editTodoForm.form.dirty" class="btn btn-success btn-block">Submit</button>
+            </form>
+            <div style="margin:10px;" *ngIf="apiMessage" align="center" class="alert alert-success" role="alert">
+              <strong>{{apiMessage}}</strong>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+

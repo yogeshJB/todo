@@ -1,0 +1,17 @@
+<nav mat-tab-nav-bar>
+  <a mat-button color="" mat-tab-link routerLink=""><img src="../../favicon.ico"> Title </a>
+  <a mat-button color="" mat-tab-link routerLink="/home">Dashboard</a>
+  <a mat-button color="" mat-tab-link routerLink="/todos">Todo</a>
+  <a  mat-button color="" mat-tab-link (click)="showAddTodoBox($event)" href="#" >Add Todo</a>
+</nav>
+    
+<router-outlet></router-outlet>
+<!-- <nav mat-tab-nav-bar>
+  <a mat-tab-link
+     *ngFor="let link of navLinks"
+     [routerLink]="link.path"
+     routerLinkActive #rla="routerLinkActive"
+     [active]="rla.isActive">
+    {{link.label}}
+  </a>
+</nav> -->

@@ -1,0 +1,57 @@
+<!-- <form class="example-form center-block" (ngSubmit)="signup(user);" #signupForm="ngForm">
+  <img class="profile-image" src="{{profileImage}}"  (click)="imgFileInput.click()">
+  <div class="button-row">
+    <!-- <button mat-button color="accent" mat-mini-fab (click)="imgFileInput.click()">
+      <mat-icon>attachment</mat-icon>
+    </button> -->
+    <!--<input hidden type="file" #imgFileInput (change)="previewImage($event)"  style="display:none"/>
+  </div>
+   <div class="form-group">
+    <label for="name">Name</label>
+    <input id="name" name="name" class="form-control" [(ngModel)]="user.name" #name="ngModel" required minlength="5" placeholder="Firstname  Middlename  Lastname" />
+    <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
+      <div *ngIf="name.errors.required">
+        Name is required.
+      </div>
+      <div *ngIf="name.errors.minlength">
+        Name must be at least 5 characters long.
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="username">Username</label>
+    <input type="text" class="form-control" id="username" name="username" placeholder="Username" required [(ngModel)]="user.username"
+      #name="ngModel">
+  </div>
+  <div class="form-group">
+      <label for="email">Email</label>
+      <input type="text" class="form-control" id="email" name="email" placeholder="email" required [(ngModel)]="user.email"
+        #name="ngModel">
+    </div>
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input type="password" class="form-control" id="password" name="password" placeholder="Password" required [(ngModel)]="user.password"
+      #name="ngModel">
+  </div>
+  <button type="submit" mat-raised-button color="primary" [disabled]="!signupForm.form.valid">SignUp</button>
+</form> -->
+
+<form class="example-form center-block" (ngSubmit)="login(user);" #loginForm="ngForm">
+    <!-- <div class="form-group">
+        <label for="email">Email</label>
+        <input type="text" class="form-control" id="email" name="email" placeholder="email" required [(ngModel)]="user.email"
+          #name="ngModel">
+      </div> -->
+      <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" class="form-control" id="username" name="username" placeholder="Username" required [(ngModel)]="user.username"
+            #name="ngModel">
+        </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" class="form-control" id="password" name="password" placeholder="Password" required [(ngModel)]="user.password"
+        #name="ngModel">
+    </div>
+    <button type="submit" mat-raised-button color="primary" [disabled]="!loginForm.form.valid">SignIn</button>
+  
+  </form>

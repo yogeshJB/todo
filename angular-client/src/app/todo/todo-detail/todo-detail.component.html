@@ -1,0 +1,8 @@
+<div *ngIf="todo">
+<h3>Task For:  {{todo.fullName}}</h3>
+<p>Todo Text: {{todo.todoText}}</p>
+<button (click)="goBack()" type="button" class="btn btn-danger">
+        <span class="glyphicon glyphicon-chevron-left"></span>
+        Go Back
+      </button>
+</div>
